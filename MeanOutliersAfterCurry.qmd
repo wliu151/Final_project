@@ -35,6 +35,17 @@ print(lower_bound)
 print(upper_bound)
 
 outliers <- draft_after_curry[draft_after_curry$X3_point_percentage < lower_bound | draft_after_curry$X3_point_percentage > upper_bound, ]
+outliers <- outliers[!is.na(outliers$X3_point_percentage), ]
 
 outliers #subset of outliers
+```
+
+## Veterans (1000 games or more) With Smallest 3pt Percentage
+
+```{r}
+veterans <- draft_data[draft_data$games >= 1000, ]
+#Veterans whose 3pt percentage falls under the lower bound are listed in the veterans_least_3pt_percentage subset
+veterans_least_3pt_percentage <- veterans[veterans$X3_point_percentage < lower_bound, ]
+veterans_least_3pt_percentage <- veterans_least_3pt_percentage[!is.na(veterans_least_3pt_percentage$X3_point_percentage), ]
+veterans_least_3pt_percentage
 ```
