@@ -1,0 +1,81 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+Question : Are three point percentages for NBA players higher after Stephen Curry was drafted versus before Stephen Curry was drafted?
+
+```{r}
+NBA <- read.csv("nbaplayersdraft.csv", check.names = FALSE)
+
+summary(NBA)
+```
+
+```{r}
+# Filter players drafted before 2009
+players_before_curry <- subset(NBA, year < 2009)
+
+# Calculate the mean of the 3-point percentage
+mean_three_pt_before_curry <- mean(players_before_curry$`3_point_percentage`, na.rm = TRUE)
+
+# Print the result
+print(mean_three_pt_before_curry)
+
+
+```
+
+```{r}
+# Filter players drafted before 2009
+players_before_curry <- subset(NBA, year < 2009)
+
+# Calculate IQR for 3-point percentage
+Q1 <- quantile(players_before_curry$`3_point_percentage`, 0.4, na.rm = TRUE)  # First quartile
+Q3 <- quantile(players_before_curry$`3_point_percentage`, 0.6, na.rm = TRUE)  # Third quartile
+IQR_value <- Q3 - Q1  # Interquartile Range
+
+# Define outlier bounds
+lower_bound <- Q1 - 1.5 * IQR_value
+upper_bound <- Q3 + 1.5 * IQR_value
+print(lower_bound)
+print(upper_bound)
+# Find players with 3-point percentage below lower bound or above upper bound
+outliers_before_curry <- subset(players_before_curry, 
+                                `3_point_percentage` < lower_bound | `3_point_percentage` > upper_bound)
+
+# Print the outliers
+print(outliers_before_curry)
+
+
+```
+
+```{r}
+# Subset the data to filter players who played more than 1000 games before 2009
+players_filtered <- subset(NBA, year < 2009 & games > 1000)
+print(players_filtered)
+# Find the index of the player with the maximum 3-point percentage
+max_three_index <- which.max(players_filtered$`3_point_percentage`)
+
+# Get the player's name
+skilled_three_player_name <- players_filtered[max_three_index, "player"]
+
+# Print the player's name
+print(skilled_three_player_name)
+
+```
+
+```{r}
+install.packages("ggplot2")
+```
+
+```{r}
+
+library(ggplot2)
+players_filtered <- subset(NBA, year < 2009 & games > 1000)
+ggplot(players_filtered, aes(x = `3_point_percentage`, y = `points_per_game`)) +
+  geom_point() +  # scatter plot for 3-point percentage vs points per game
+  labs(x = "3-Point Percentage", y = "Points per Game") +
+  ggtitle("3-Point Percentage vs Points per Game\n(Players Drafted Before 2009 and Games > 1000)") +
+  theme_minimal()
+
+```
