@@ -47,5 +47,6 @@ veterans <- draft_data[draft_data$games >= 1000, ]
 #Veterans whose 3pt percentage falls under the lower bound are listed in the veterans_least_3pt_percentage subset
 veterans_least_3pt_percentage <- veterans[veterans$X3_point_percentage < lower_bound, ]
 veterans_least_3pt_percentage <- veterans_least_3pt_percentage[!is.na(veterans_least_3pt_percentage$X3_point_percentage), ]
+
 veterans_least_3pt_percentage
 ```
