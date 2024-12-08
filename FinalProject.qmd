@@ -12,3 +12,14 @@ mean_3_after_curry <- as.numeric(mean(players_after_curry$X3_point_percentage, n
 #Created data for barplot
 group_names <- c("Drafted Before Curry", "Drafted After Curry")
 group_means <- c(mean_3_before_curry, mean_3_after_curry)
+
+#Created Barplot
+barplot(
+  group_means,
+  names.arg = group_names,
+  col = c("blue", "gold"),
+  main = "Comparison of Mean 3-Point Percentages by Group",
+  ylab = "Mean 3-Point Percentage",
+  xlab = "Player Groups",
+  ylim = c(0, max(group_means) * 1.2)
+)
