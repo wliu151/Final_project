@@ -8,6 +8,6 @@
 - Mean 3pt percentages and outlier players are computed for players drafted before and after Steph Curry.
 - Three point averages for both groups are depicted by a histogram
 
-###Required Packages
+### Required Packages
 - ggplot
--  
+- 
