@@ -31,8 +31,6 @@ IQR <- Q3 - Q1
 
 lower_bound <- Q1 - 1.5 * IQR
 upper_bound <- Q3 + 1.5 * IQR
-print(lower_bound)
-print(upper_bound)
 
 outliers <- draft_after_curry[draft_after_curry$X3_point_percentage < lower_bound | draft_after_curry$X3_point_percentage > upper_bound, ]
 outliers <- outliers[!is.na(outliers$X3_point_percentage), ]
@@ -56,7 +54,7 @@ library(ggplot2)
 three_pt_scatterplot <- ggplot(veterans, aes(x = average_minutes_played, y = X3_point_percentage)) + 
   geom_point(color = "blue") +
   geom_point(data = worst_veteran, aes(x = average_minutes_played, y = X3_point_percentage), color = "red", size = 3) + 
-  labs(title = "3 Point Percentage (After Curry) vs. Average Minutes Played",
+  labs(title = "Avg. 3pt. Percentage of Veterans (1000+ Games) vs. Avg. Minutes Played",
        x = "Average Minutes Played",
        y = "3-Point Percentage") + 
   theme_minimal()
