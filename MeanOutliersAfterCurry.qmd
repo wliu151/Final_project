@@ -25,13 +25,16 @@ print(paste("Mean Three Point Percentage After Curry:", mean_3pt_percentage))
 
 ```{r}
 #using the IQR method, identify the outliers (players with 3pt percentage less than the lower bound or greater than upper bound)
-Q1 <- quantile(draft_after_curry$X3_point_percentage, 0.25, na.rm = TRUE)
-Q3 <- quantile(draft_after_curry$X3_point_percentage, 0.75, na.rm = TRUE)
+Q1 <- quantile(draft_after_curry$X3_point_percentage, 0.40, na.rm = TRUE)
+Q3 <- quantile(draft_after_curry$X3_point_percentage, 0.60, na.rm = TRUE)
 IQR <- Q3 - Q1
 
 lower_bound <- Q1 - 1.5 * IQR
 upper_bound <- Q3 + 1.5 * IQR
+print(lower_bound)
+print(upper_bound)
 
 outliers <- draft_after_curry[draft_after_curry$X3_point_percentage < lower_bound | draft_after_curry$X3_point_percentage > upper_bound, ]
+
 outliers #subset of outliers
 ```
