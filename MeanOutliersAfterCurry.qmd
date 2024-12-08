@@ -57,7 +57,7 @@ three_pt_scatterplot <- ggplot(veterans, aes(x = average_minutes_played, y = X3_
   geom_point(color = "blue") +
   geom_point(data = worst_veteran, aes(x = average_minutes_played, y = X3_point_percentage), color = "red", size = 3) + 
   labs(title = "3 Point Percentage (After Curry) vs. Average Minutes Played",
-       x = "Average Minutes Played,",
+       x = "Average Minutes Played",
        y = "3-Point Percentage") + 
   theme_minimal()
 
