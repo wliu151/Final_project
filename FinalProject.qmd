@@ -1,2 +1,6 @@
 NBA_Players_Draft <- read.csv("/Users/luislopez/Downloads/nbaplayersdraft.csv")
 NBA_Players_Draft
+
+# Grouping based off of Stephen Curry's Draft Year
+players_before_curry <- subset(NBA_Players_Draft, year < 2009)
+players_after_curry <- subset(NBA_Players_Draft, year >= 2009)
