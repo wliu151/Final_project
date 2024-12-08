@@ -1,7 +1,7 @@
-## Group Names:
+## Group Names
 - Luis Lopez, Wendu Liu, Mason Lam
 
-## Question : 
+## Question
 - Are three point percentages for NBA players higher after Steph Curry was drafted versus before Steph Curry was drafted?
 
 ### Summary
@@ -10,4 +10,5 @@
 
 ### Required Packages
 - ggplot
+- ggplot2
 - 
