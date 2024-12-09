@@ -1,3 +1,4 @@
+
 ---
 title: "Mean and Outliers After Curry"
 format: html
