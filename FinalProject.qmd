@@ -16,11 +16,13 @@ players_after_curry <- subset(NBA_Players_Draft, year >= 2009)
 players_after_curry <- players_after_curry[!is.na(players_after_curry$X3_point_percentage), ]
 ```
 
-## Mean After Curry
+## Means Before and After Curry
 
 ```{r}
-mean_3pt_percentage <- mean(players_after_curry$X3_point_percentage, na.rm = TRUE)
-print(paste("Mean Three Point Percentage After Curry:", mean_3pt_percentage))
+mean_3_before_curry <- as.numeric(mean(players_before_curry$X3_point_percentage, na.rm =TRUE))
+mean_3_after_curry <- as.numeric(mean(players_after_curry$X3_point_percentage, na.rm = TRUE))
+print(paste("Mean Three Point Percentage Before Curry:", mean_3_before_curry))
+print(paste("Mean Three Point Percentage After Curry:", mean_3_after_curry))
 ```
 
 ## Outliers After Curry
@@ -74,4 +76,20 @@ three_pt_scatterplot
 
 
 
+```
+```{r}
+#Created data for barplot
+group_names <- c("Drafted Before Curry", "Drafted After Curry")
+group_means <- c(mean_3_before_curry, mean_3_after_curry)
+
+#Created Barplot
+barplot(
+  group_means,
+  names.arg = group_names,
+  col = c("blue", "gold"),
+  main = "Comparison of Mean 3-Point Percentages by Group",
+  ylab = "Mean 3-Point Percentage",
+  xlab = "Player Groups",
+  ylim = c(0, max(group_means) * 1.2)
+)
 ```
