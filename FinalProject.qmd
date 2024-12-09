@@ -1,14 +1,88 @@
-#Read in the dataset
-NBA_Players_Draft <- read.csv("/Users/luislopez/Downloads/nbaplayersdraft.csv")
 
-#Grouped based off of Stephen Curry's Draft Year
+---
+title: "Mean and Outliers After Curry"
+format: html
+editor: visual
+---
+
+## Reading Data
+
+```{r}
+#Taking into account players drafted after 2009, remove empty 3pt. Cells
+NBA_Players_Draft <- read.csv("../Final_project/renv/nbaplayersdraft.csv")
 players_before_curry <- subset(NBA_Players_Draft, year < 2009)
-players_after_curry <- subset(NBA_Players_Draft, year >= 2009)
+players_before_curry <- players_before_curry[!is.na(players_before_curry$X3_point_percentage), ]
 
-#Found mean three point percentage in each group
+players_after_curry <- subset(NBA_Players_Draft, year >= 2009)
+players_after_curry <- players_after_curry[!is.na(players_after_curry$X3_point_percentage), ]
+```
+
+## Means Before and After Curry
+
+```{r}
 mean_3_before_curry <- as.numeric(mean(players_before_curry$X3_point_percentage, na.rm =TRUE))
 mean_3_after_curry <- as.numeric(mean(players_after_curry$X3_point_percentage, na.rm = TRUE))
+print(paste("Mean Three Point Percentage Before Curry:", mean_3_before_curry))
+print(paste("Mean Three Point Percentage After Curry:", mean_3_after_curry))
+```
 
+## Outliers After Curry
+
+```{r}
+#using the IQR method, identify the outliers (players with 3pt percentage less than the lower bound or greater than upper bound)
+library(ggplot2)
+Q1 <- quantile(players_after_curry$X3_point_percentage, 0.40, na.rm = TRUE)
+Q3 <- quantile(players_after_curry$X3_point_percentage, 0.60, na.rm = TRUE)
+IQR <- Q3 - Q1
+
+lower_bound <- Q1 - 1.5 * IQR
+upper_bound <- Q3 + 1.5 * IQR
+
+players_after_curry$outliers <- players_after_curry$X3_point_percentage < lower_bound | players_after_curry$X3_point_percentage > upper_bound
+
+scatter_plot_outliers <- ggplot(players_after_curry, aes(x = average_minutes_played, y = X3_point_percentage)) +
+  geom_point(aes(color = outliers), alpha = 0.7) +  
+  scale_color_manual(values = c("FALSE" = "blue", "TRUE" = "red"), labels = c("Non-Outlier", "Outlier")) +
+  labs(title = "3-Point Percentage vs. Average Minutes Played with Outliers After Curry",
+       x = "Average Minutes Played",
+       y = "3-Point Percentage",
+       color = "Legend") +
+  theme_minimal()
+
+# Display the plot
+print(scatter_plot_outliers)
+
+
+```
+
+## Veterans (1000 games or more) With Smallest 3pt Percentage
+
+```{r}
+library(ggplot2)
+veterans <- NBA_Players_Draft[NBA_Players_Draft$games >= 1000, ]
+veterans <- veterans[!is.na(veterans$X3_point_percentage), ]
+#Veterans whose 3pt percentage falls under the lower bound are listed in the veterans_least_3pt_percentage subset
+veterans_least_index <- which.min(veterans$X3_point_percentage)
+worst_veteran <- veterans[veterans_least_index, ]
+print(paste("Worst Veteran From 3pt. Range:", worst_veteran$player))
+
+three_pt_scatterplot <- ggplot(veterans, aes(x = average_minutes_played, y = X3_point_percentage)) + 
+  geom_point(color = "blue") +
+  geom_point(data = worst_veteran, aes(x = average_minutes_played, y = X3_point_percentage), color = "red", size = 3) + 
+  labs(title = "Avg. 3pt. Percentage of Veterans (1000+ Games) vs. Avg. Minutes Played",
+       x = "Average Minutes Played",
+       y = "3-Point Percentage") + 
+  theme_minimal()
+
+three_pt_scatterplot
+
+
+
+```
+
+## Barplot Comparing Means Between Two Groups
+
+```{r}
 #Created data for barplot
 group_names <- c("Drafted Before Curry", "Drafted After Curry")
 group_means <- c(mean_3_before_curry, mean_3_after_curry)
@@ -23,3 +97,4 @@ barplot(
   xlab = "Player Groups",
   ylim = c(0, max(group_means) * 1.2)
 )
+```
