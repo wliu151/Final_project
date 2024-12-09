@@ -29,6 +29,7 @@ print(paste("Mean Three Point Percentage After Curry:", mean_3_after_curry))
 
 ```{r}
 #using the IQR method, identify the outliers (players with 3pt percentage less than the lower bound or greater than upper bound)
+library(ggplot2)
 Q1 <- quantile(players_after_curry$X3_point_percentage, 0.40, na.rm = TRUE)
 Q3 <- quantile(players_after_curry$X3_point_percentage, 0.60, na.rm = TRUE)
 IQR <- Q3 - Q1
