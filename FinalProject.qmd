@@ -1,4 +1,3 @@
-
 ---
 title: "Mean and Outliers After Curry"
 format: html
@@ -9,7 +8,7 @@ editor: visual
 
 ```{r}
 #Taking into account players drafted after 2009, remove empty 3pt. Cells
-NBA_Players_Draft <- read.csv("../Final_project/renv/nbaplayersdraft.csv")
+NBA_Players_Draft <- read.csv("../Final_project3/renv/nbaplayersdraft.csv")
 players_before_curry <- subset(NBA_Players_Draft, year < 2009)
 players_before_curry <- players_before_curry[!is.na(players_before_curry$X3_point_percentage), ]
 
